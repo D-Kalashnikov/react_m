@@ -1,0 +1,12 @@
+#Корневой файл
+root = true
+
+#Отступы
+[*]
+indent_style = tab
+
+#В конце файла новая строка
+insert_final_newline = true
+
+#Кодировка
+charset = utf-8
