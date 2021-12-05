@@ -52,11 +52,12 @@ module.exports = {
 				],
 			},
 			{
-				test: /\.(ico|jpg|jpeg|png|gif|mp4)(\?.*)?$/,
+				test: /\.(ico|jpg|jpeg|png|gif|mp4|svg)(\?.*)?$/,
 				loader: "file-loader",
 				options: {
 					limit: 1000,
-					name: "[path][name].[ext]",
+					name: "[name].[ext]",
+					outputPath: "media",
 				},
 			},
 			{
@@ -67,7 +68,7 @@ module.exports = {
 						loader: "file-loader",
 						options: {
 							name: "[name].[ext]",
-							outputPath: "fonts/",
+							outputPath: "fonts",
 						},
 					},
 				],
@@ -87,8 +88,9 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
-			"@app": path.resolve(__dirname, "./src/"),
+			"@app": path.resolve(__dirname, "src"),
 		},
+		extensions: [".js", ".jsx", ".scss"],
 	},
 
 	plugins: [
