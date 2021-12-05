@@ -1,18 +1,17 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
-const path = require('path');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const path = require("path");
 
 module.exports = {
-	entry: './src/script.js',
+	entry: "./src/script.js",
 	output: {
-		path: path.resolve(__dirname, 'dist'),
-		filename: 'bundle.js',
+		path: path.resolve(__dirname, "dist"),
+		filename: "bundle.js",
 	},
+	mode: "development",
 	devServer: {
 		port: 4200,
-		contentBase: path.join(__dirname, 'dist'),
-		watchContentBase: true,
-		hot: true
+		hot: true,
 	},
 	module: {
 		rules: [
@@ -20,9 +19,9 @@ module.exports = {
 				include: /node_modules/,
 				test: /\.css$/,
 				use: [
-					'style-loader',
+					"style-loader",
 					{
-						loader: 'css-loader',
+						loader: "css-loader",
 					},
 				],
 			},
@@ -30,14 +29,14 @@ module.exports = {
 				exclude: /node_modules/,
 				test: /\.(sa|sc)ss$/,
 				use: [
-					'style-loader',
+					"style-loader",
 					{
-						loader: 'css-loader',
+						loader: "css-loader",
 						options: {
 							importLoaders: 1,
 						},
 					},
-					'sass-loader',
+					"sass-loader",
 				],
 			},
 			{
@@ -45,20 +44,57 @@ module.exports = {
 				test: /\.(js|jsx|mjs)$/,
 				use: [
 					{
-						loader: 'babel-loader',
+						loader: "babel-loader",
 						options: {
 							babelrc: true,
 						},
 					},
 				],
 			},
+			{
+				test: /\.(ico|jpg|jpeg|png|gif|mp4)(\?.*)?$/,
+				loader: "file-loader",
+				options: {
+					limit: 1000,
+					name: "[path][name].[ext]",
+				},
+			},
+			{
+				issuer: /\.(sa|sc)ss$/,
+				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+				use: [
+					{
+						loader: "file-loader",
+						options: {
+							name: "[name].[ext]",
+							outputPath: "fonts/",
+						},
+					},
+				],
+			},
+			{
+				test: /\.(pdf)(\?.*)?$/,
+				use: [
+					{
+						loader: "file-loader",
+						options: {
+							name: "files/[name].[ext]",
+						},
+					},
+				],
+			},
 		],
+	},
+	resolve: {
+		alias: {
+			"@app": path.resolve(__dirname, "./src/"),
+		},
 	},
 
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: "./src/index.html"
+			template: "./src/index.html",
 		}),
-		new webpack.HotModuleReplacementPlugin()
+		new webpack.HotModuleReplacementPlugin(),
 	],
 };
